@@ -1,0 +1,49 @@
+---
+config:
+  theme: base
+  themeVariables:
+    fontFamily: Arial
+    primaryColor: '#e8f1ff'
+    primaryBorderColor: '#2457a6'
+    primaryTextColor: '#13233a'
+    lineColor: '#355f8c'
+---
+flowchart LR
+    Cliente[Cliente HTTP]
+    subgraph API[Adapters de entrada]
+        LoginController[LoginController]
+        CriarController[CriarUsuarioController]
+        Security[Spring Security JWT]
+    end
+    subgraph APP[Casos de uso]
+        LoginUC[LoginUseCase / LoginService]
+        CriarUC[CriarUsuarioUseCase / CriarUsuarioService]
+    end
+    subgraph CORE[Núcleo]
+        Usuario[Usuario + Perfil]
+        PublicAPI[BuscarUsuarioPorEmail]
+        Ports[UsuarioRepository<br/>PasswordHasher<br/>PasswordVerifier<br/>TokenIssuer]
+    end
+    subgraph INFRA[Adapters de saída]
+        Jpa[JpaUsuarioRepositoryAdapter]
+        BCrypt[BCrypt adapters]
+        JWT[JwtTokenIssuer]
+        Flyway[Flyway]
+    end
+    DB[(PostgreSQL)]
+    Cliente --> Security
+    Security --> LoginController
+    Security --> CriarController
+    LoginController --> LoginUC
+    CriarController --> CriarUC
+    LoginUC --> PublicAPI
+    LoginUC --> Ports
+    CriarUC --> Usuario
+    CriarUC --> Ports
+    Jpa -. implementa .-> PublicAPI
+    Jpa -. implementa .-> Ports
+    BCrypt -. implementa .-> Ports
+    JWT -. implementa .-> Ports
+    Jpa --> DB
+    Flyway --> DB
+

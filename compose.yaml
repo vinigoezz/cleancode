@@ -1,0 +1,43 @@
+services:
+  database:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-nexfleet}
+      POSTGRES_USER: ${POSTGRES_USER:-nexfleet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no arquivo .env}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /workspace
+    command: mvn spring-boot:run
+    environment:
+      DB_URL: jdbc:postgresql://database:5432/${POSTGRES_DB:-nexfleet}
+      DB_USER: ${POSTGRES_USER:-nexfleet}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no arquivo .env}
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES:-30}
+      NEXFLEET_ADMIN_NAME: ${NEXFLEET_ADMIN_NAME:-Administrador NexFleet}
+      NEXFLEET_ADMIN_EMAIL: ${NEXFLEET_ADMIN_EMAIL:-admin@nexfleet.local}
+      NEXFLEET_ADMIN_PASSWORD: ${NEXFLEET_ADMIN_PASSWORD:?Defina NEXFLEET_ADMIN_PASSWORD no arquivo .env}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    volumes:
+      - ./backend:/workspace
+      - maven_cache:/root/.m2
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  maven_cache:
+

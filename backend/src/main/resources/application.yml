@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: nexfleet-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/nexfleet}
+    username: ${DB_USER:nexfleet}
+    password: ${DB_PASSWORD:nexfleet}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+nexfleet:
+  security:
+    jwt-secret: ${JWT_SECRET:desenvolvimento-local-chave-minima-32-caracteres}
+    jwt-expiration-minutes: ${JWT_EXPIRATION_MINUTES:30}
+  bootstrap:
+    admin-name: ${NEXFLEET_ADMIN_NAME:Administrador NexFleet}
+    admin-email: ${NEXFLEET_ADMIN_EMAIL:admin@nexfleet.local}
+    admin-password: ${NEXFLEET_ADMIN_PASSWORD:}
+
