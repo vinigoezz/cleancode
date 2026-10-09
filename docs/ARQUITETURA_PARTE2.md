@@ -132,3 +132,8 @@ Resultado verificado em Java 21: 12 testes, sem falhas ou erros.
 - **Slice:** conjunto ponta a ponta de arquivos de uma funcionalidade.
 - **JWT:** token assinado usado para transportar a identidade autenticada.
 
+## 13. Repositório da entrega
+
+- GitHub: <https://github.com/vinigoezz/cleancode>
+- Branch: [`feature/vertical-slice-clean-solid`](https://github.com/vinigoezz/cleancode/tree/feature/vertical-slice-clean-solid)
+

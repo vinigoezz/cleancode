@@ -2,7 +2,9 @@
 
 Backend acadêmico do NexFleet organizado como monólito modular, com Clean Architecture dentro dos módulos e Vertical Slice por caso de uso.
 
-Branch da entrega: `feature/vertical-slice-clean-solid`.
+GitHub: <https://github.com/vinigoezz/cleancode>
+
+Branch da entrega: [`feature/vertical-slice-clean-solid`](https://github.com/vinigoezz/cleancode/tree/feature/vertical-slice-clean-solid).
 
 ## Escopo implementado
 
@@ -73,6 +75,7 @@ mvn test
 
 ## Documentação da entrega
 
+- [Relatório final em PDF](docs/entrega/NexFleet_TDE2_VerticalSlice_CleanArchitecture_SOLID.pdf)
 - [Arquitetura — Parte 2](docs/ARQUITETURA_PARTE2.md)
 - [Participação dos alunos](docs/CONTRIBUICOES.md)
 - [Prompts utilizados](docs/PROMPTS_UTILIZADOS.md)
